@@ -249,18 +249,18 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php
 echo '<div style="text-align: center; margin: 20px 0;">';
 if ($page > 1) {
-    echo '<a href="?page=' . ($page - 1) . '" style="margin: 0 5px; text-decoration: none; color: blue;">Previous</a>';
+    echo '<a href="?page=' . ($page - 1) . '" style="margin: 0 5px; text-decoration: none; color: black;">Previous</a>';
 }
 for ($i = 1; $i <= $total_pages; $i++) {
     if ($i == $page) {
         // Page actuelle mise en surbrillance
-        echo '<span style="margin: 0 5px; font-weight: bold; color: blue;">' . $i . '</span>';
+        echo '<span style="margin: 0 5px; font-weight: bold; color: black;">' . $i . '</span>';
     } else {
-        echo '<a href="?page=' . $i . '" style="margin: 0 5px; text-decoration: none; color: blue;">' . $i . '</a>';
+        echo '<a href="?page=' . $i . '" style="margin: 0 5px; text-decoration: none; color: black;">' . $i . '</a>';
     }
 }
 if ($page < $total_pages) {
-    echo '<a href="?page=' . ($page + 1) . '" style="margin: 0 5px; text-decoration: none; color: blue;">Next</a>';
+    echo '<a href="?page=' . ($page + 1) . '" style="margin: 0 5px; text-decoration: none; color: black;">Next</a>';
 }
 echo '</div>';
 ?>
