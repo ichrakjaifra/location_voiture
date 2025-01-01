@@ -4,8 +4,34 @@ require_once 'Database.php';
 $database = new Database();
 $conn = $database->connect();
 
-$sql = "SELECT * FROM vehicules";
-$result = $database->fetchAll($sql);
+// $sql = "SELECT * FROM vehicules";
+// $result = $database->fetchAll($sql);
+
+// Nombre d'éléments par page
+$items_per_page = 6;
+
+// Page actuelle
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = max(1, $page); // S'assurer que la page est au moins 1
+
+// Calcul de l'offset
+$offset = ($page - 1) * $items_per_page;
+
+// Récupérer le total des voitures
+$total_items_query = "SELECT COUNT(*) AS total FROM vehicules";
+$total_items_result = $database->fetchAll($total_items_query);
+$total_items = $total_items_result[0]['total'];
+
+// Calcul du nombre total de pages
+$total_pages = ceil($total_items / $items_per_page);
+
+// Requête avec limite et offset
+$sql = "SELECT * FROM vehicules LIMIT :limit OFFSET :offset";
+$stmt = $conn->prepare($sql);
+$stmt->bindValue(':limit', $items_per_page, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <html lang="en">
@@ -219,6 +245,26 @@ $result = $database->fetchAll($sql);
             }
             ?>
         </ul>
+
+        <?php
+echo '<div style="text-align: center; margin: 20px 0;">';
+if ($page > 1) {
+    echo '<a href="?page=' . ($page - 1) . '" style="margin: 0 5px; text-decoration: none; color: blue;">Previous</a>';
+}
+for ($i = 1; $i <= $total_pages; $i++) {
+    if ($i == $page) {
+        // Page actuelle mise en surbrillance
+        echo '<span style="margin: 0 5px; font-weight: bold; color: blue;">' . $i . '</span>';
+    } else {
+        echo '<a href="?page=' . $i . '" style="margin: 0 5px; text-decoration: none; color: blue;">' . $i . '</a>';
+    }
+}
+if ($page < $total_pages) {
+    echo '<a href="?page=' . ($page + 1) . '" style="margin: 0 5px; text-decoration: none; color: blue;">Next</a>';
+}
+echo '</div>';
+?>
+
     </div>
 </section>
 
