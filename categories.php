@@ -6,34 +6,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (isset($_POST['add_category'])) {
       $nom = $_POST['nom'];
       $description = $_POST['description'];
-      
-      // Create a new Categorie object
+
       $categorie = new Categorie(null, $nom, $description);
-
-      // Add category using the static method of Categorie class
       Categorie::addCategory($categorie);
-  }
-
-  // Deleting a category
-  if (isset($_POST['delete_category'])) {
-      $categoryId = $_POST['delete_category_id'];
-      
-      // Delete category using the static method of Categorie class
-      Categorie::deleteCategory($categoryId);
   }
 
   // Updating a category
   if (isset($_POST['update_category'])) {
-      $categoryId = $_POST['update_category_id'];
+      $categoryId = $_POST['categoryId'];
       $nom = $_POST['nom'];
       $description = $_POST['description'];
-      
-      // Create a new Categorie object for the update
+
       $categorie = new Categorie($categoryId, $nom, $description);
-      
-      // Update category using the static method of Categorie class
       Categorie::updateCategory($categorie);
   }
+
+  // Deleting a category
+  if (isset($_POST['delete_category'])) {
+    $categoryId = $_POST['categoryId']; 
+
+    if (Categorie::deleteCategory($categoryId)) {
+        echo "Category deleted successfully!";
+    } else {
+        echo "Failed to delete category!";
+    }
+}
+
 }
 ?>
 
@@ -221,7 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     Modifier
                                 </button>
                                 <form method="POST">
-                                    <input type="hidden" name="delete_category_id" value="<?php echo $categorie->getId(); ?>">
+                                    <input type="hidden" name="categoryId" value="<?php echo $categorie->getId(); ?>">
                                     <button type="submit" name="delete_category" class="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
                                         Supprimer
                                     </button>
@@ -238,10 +236,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </div>
 
 
-<!-- Modal for Adding Category -->
+<!-- Modal for Adding or Editing Category -->
 <div id="categoryModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center hidden">
     <div class="bg-white rounded-lg shadow-lg p-6 w-1/3">
-        <h3 class="text-xl font-bold text-slate-800 mb-4">Ajouter une Catégorie</h3>
+        <h3 id="modalTitle" class="text-xl font-bold text-slate-800 mb-4">Ajouter une Catégorie</h3>
         <form method="POST">
             <div class="mb-4">
                 <label for="nom" class="block text-sm font-semibold text-slate-600">Nom</label>
@@ -251,32 +249,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="description" class="block text-sm font-semibold text-slate-600">Description</label>
                 <textarea id="description" name="description" class="mt-2 px-4 py-2 w-full border border-slate-300 rounded-lg" required></textarea>
             </div>
+            <input type="hidden" id="categoryId" name="categoryId"> <!-- Hidden field for category ID -->
             <div class="flex justify-end">
-                <button type="submit" name="add_category" class="px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600">Ajouter</button>
+                <button type="submit" id="submitButton" name="add_category" class="px-4 py-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600">Ajouter</button>
                 <button type="button" onclick="closeCategoryModal()" class="ml-2 px-4 py-2 bg-gray-300 text-gray-700 rounded-xl hover:bg-gray-400">Annuler</button>
             </div>
         </form>
     </div>
 </div>
 
+
 <script>
     // Function to show the modal
-    function toggleCategoryModal() {
-        document.getElementById('categoryModal').classList.toggle('hidden');
-    }
+function toggleCategoryModal() {
+    document.getElementById('categoryModal').classList.toggle('hidden');
+}
 
-    // Function to close the modal
-    function closeCategoryModal() {
-        document.getElementById('categoryModal').classList.add('hidden');
-    }
+// Function to close the modal
+function closeCategoryModal() {
+    document.getElementById('categoryModal').classList.add('hidden');
+}
 
-    // Function to pre-fill the form for editing
-    function editCategory(id, nom, description) {
-        // Optionally populate the form for editing
-        document.getElementById('nom').value = nom;
-        document.getElementById('description').value = description;
-        toggleCategoryModal();
-    }
+// Function to pre-fill the form for editing
+function editCategory(id, nom, description) {
+    // Populate the form with existing category data
+    document.getElementById('nom').value = nom;
+    document.getElementById('description').value = description;
+    document.getElementById('categoryId').value = id; // Set the hidden category ID
+
+    // Change the title and button text for editing
+    document.getElementById('modalTitle').innerText = 'Modifier une Catégorie';
+    document.getElementById('submitButton').innerText = 'Modifier'; // Change button text to "Modifier"
+    document.getElementById('submitButton').name = 'update_category'; // Set the button to trigger update
+
+    toggleCategoryModal();
+}
+
 </script>
 
 </body>
