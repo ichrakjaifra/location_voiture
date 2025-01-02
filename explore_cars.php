@@ -146,7 +146,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
           <div class="hero-banner"></div>
 
-          <form action="" class="hero-form">
+          <!-- <form action="" class="hero-form">
 
             <div class="input-wrapper">
               <label for="input-1" class="input-label">Car, model, or brand</label>
@@ -169,7 +169,103 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <button type="submit" class="btn">Search</button>
 
-          </form>
+          </form> -->
+
+          <!-- Formulaire HTML -->
+<!-- <form id="car-search-form" class="hero-form">
+  <div class="input-wrapper">
+    <label for="input-1" class="input-label">Car, model, or brand</label>
+    <input type="text" name="car_model" id="input-1" class="input-field" placeholder="What car are you looking?">
+  </div>
+
+  <div class="input-wrapper">
+    <label for="input-2" class="input-label">Max. monthly payment</label>
+    <input type="text" name="monthly_pay" id="input-2" class="input-field" placeholder="Add an amount in $">
+  </div>
+
+  <div class="input-wrapper">
+    <label for="input-3" class="input-label">Make Year</label>
+    <input type="text" name="year" id="input-3" class="input-field" placeholder="Add a minimal make year">
+  </div>
+
+  <button type="button" class="btn" id="search-button">Search</button>
+</form>
+
+<div id="search-results"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#search-button').on('click', function () {
+      const formData = $('#car-search-form').serialize(); 
+
+      $.ajax({
+        url: 'search_cars.php', 
+        method: 'POST',
+        data: formData,
+        success: function (response) {
+          $('#search-results').html(response); 
+        },
+        error: function () {
+          $('#search-results').html('<p>An error occurred while searching for cars.</p>');
+        },
+      });
+    });
+  });
+</script> -->
+<!-- Formulaire HTML -->
+<form id="car-search-form" class="hero-form">
+  <div class="input-wrapper">
+    <label for="input-1" class="input-label">Car, model, or brand</label>
+    <input type="text" name="car_model" id="input-1" class="input-field" placeholder="What car are you looking?">
+  </div>
+
+  <div class="input-wrapper">
+    <label for="input-2" class="input-label">Max. monthly payment</label>
+    <input type="text" name="monthly_pay" id="input-2" class="input-field" placeholder="Add an amount in $">
+  </div>
+
+  <div class="input-wrapper">
+    <label for="input-3" class="input-label">Make Year</label>
+    <input type="text" name="year" id="input-3" class="input-field" placeholder="Add a minimal make year">
+  </div>
+
+  <button type="button" id="search-button" class="btn">Search</button>
+</form>
+
+<!-- Conteneur pour les résultats -->
+<!-- <div id="search-results"></div> -->
+
+<script>
+  // Gestionnaire d'événement pour le bouton de recherche
+  document.getElementById('search-button').addEventListener('click', function () {
+    const form = document.getElementById('car-search-form');
+    const formData = new FormData(form); // Récupère les données du formulaire
+
+    // Crée une requête AJAX
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'search_cars.php', true); // Envoie les données à search_cars.php
+
+    // Gestion de la réponse
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        document.getElementById('search-results').innerHTML = xhr.responseText; // Affiche les résultats
+      } else {
+        document.getElementById('search-results').innerHTML = '<p>An error occurred while searching for cars.</p>';
+      }
+    };
+
+    // Gestion des erreurs réseau
+    xhr.onerror = function () {
+      document.getElementById('search-results').innerHTML = '<p>Network error occurred.</p>';
+    };
+
+    // Envoie les données du formulaire
+    xhr.send(formData);
+  });
+</script>
+
+
 
         </div>
       </section>
@@ -177,7 +273,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       
 
-<section class="section featured-car" id="featured-car">
+<section class="section featured-car" id="search-results">
     <div class="container">
         <div class="title-wrapper">
             <h2 class="h2 section-title">Featured cars</h2>
@@ -209,12 +305,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     echo '                <li class="card-list-item"><ion-icon name="flash-outline"></ion-icon><span class="card-item-text">' . $row['source_energie'] . '</span></li>';
                     echo '                <li class="card-list-item"><ion-icon name="speedometer-outline"></ion-icon><span class="card-item-text">Fuel Efficiency</span></li>';
                     echo '            </ul>';
-                    // echo '            <div class="card-price-wrapper">';
-                    // echo '                <p class="card-price"><strong>$' . htmlspecialchars($row['prix']) . '</strong> / month</p>';
-                    // echo '                <button class="btn fav-btn" aria-label="Add to favourite list"><ion-icon name="heart-outline"></ion-icon></button>';
-                    // echo '                <a href="reservation.php?id=' . $row['id'] . '" class="btn inline-block px-4 py-2 bg-blue-500 text-white font-semibold text-center rounded-lg shadow-md hover:bg-blue-600">Rent now</a>';
-                    // echo '                <a href="detail.php?id=' . $row['id'] . '" class="btn inline-block px-4 py-2 bg-gray-500 text-white font-semibold text-center rounded-lg shadow-md hover:bg-gray-600">View Details</a>';
-                    // echo '            </div>';
+                    
 
 
                     echo'<div class="card-price-wrapper text-center">';
@@ -226,14 +317,7 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     echo'</div>';
                     echo'</div>';
 
-//                     echo '<div class="card-price-wrapper text-center">';
-// echo '    <p class="card-price"><strong>$' . htmlspecialchars($row['prix']) . '</strong> / month</p>';
-// echo '                <button class="btn fav-btn" aria-label="Add to favourite list"><ion-icon name="heart-outline"></ion-icon></button>';
-// echo '    <div class="flex flex-col items-center mt-2 gap-2">';
-// echo '        <a href="reservation.php?id=' . $row['id'] . '" class="btn inline-block px-4 py-2 bg-blue-500 text-white font-semibold text-center rounded-lg shadow-md hover:bg-blue-600">Rent now</a>';
-// echo '        <a href="detail.php?id=' . $row['id'] . '" class="btn inline-block px-4 py-2 bg-gray-500 text-white font-semibold text-center rounded-lg shadow-md hover:bg-gray-600">View Details</a>';
-// echo '    </div>';
-// echo '</div>';
+
 
 
                     echo '        </div>';
