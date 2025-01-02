@@ -54,10 +54,10 @@ class Administrateur extends Utilisateur {
 
     // Méthode pour supprimer un véhicule
     public function supprimerVehicule($id) {
-        $db = new Database(); // Crée une instance de la classe Database
-        $db->connect(); // Établit la connexion à la base de données
+        $db = new Database(); 
+        $db->connect(); 
         
-        // Requête pour supprimer un véhicule par son ID
+      
         $query = "DELETE FROM vehicules WHERE id = ?";
         $db->execute($query, [$id]);
     }

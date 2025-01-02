@@ -6,7 +6,7 @@ $pdo = $db->connect();
 try {
   $query = "SELECT u.id, u.nom, u.email, r.nom AS role_name
             FROM utilisateurs u 
-            INNER JOIN roles r ON u.role_id = r.id"; // Assumed 'role_id' for the join condition
+            INNER JOIN roles r ON u.role_id = r.id"; 
   $stmt = $pdo->prepare($query);
   $stmt->execute();
   $users = $stmt->fetchAll(PDO::FETCH_ASSOC);

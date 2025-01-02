@@ -26,9 +26,9 @@ class Database {
 
     // Méthode pour récupérer tous les résultats d'une requête
     public function fetchAll($query, $params = []) {
-        $stmt = $this->conn->prepare($query); // Préparation de la requête
-        $stmt->execute($params); // Exécution de la requête
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retourne tous les résultats
+        $stmt = $this->conn->prepare($query); 
+        $stmt->execute($params); 
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
     }
 }
 ?>

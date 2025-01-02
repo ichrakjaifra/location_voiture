@@ -145,74 +145,6 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </div>
 
           <div class="hero-banner"></div>
-
-          <!-- <form action="" class="hero-form">
-
-            <div class="input-wrapper">
-              <label for="input-1" class="input-label">Car, model, or brand</label>
-
-              <input type="text" name="car-model" id="input-1" class="input-field"
-                placeholder="What car are you looking?">
-            </div>
-
-            <div class="input-wrapper">
-              <label for="input-2" class="input-label">Max. monthly payment</label>
-
-              <input type="text" name="monthly-pay" id="input-2" class="input-field" placeholder="Add an amount in $">
-            </div>
-
-            <div class="input-wrapper">
-              <label for="input-3" class="input-label">Make Year</label>
-
-              <input type="text" name="year" id="input-3" class="input-field" placeholder="Add a minimal make year">
-            </div>
-
-            <button type="submit" class="btn">Search</button>
-
-          </form> -->
-
-          <!-- Formulaire HTML -->
-<!-- <form id="car-search-form" class="hero-form">
-  <div class="input-wrapper">
-    <label for="input-1" class="input-label">Car, model, or brand</label>
-    <input type="text" name="car_model" id="input-1" class="input-field" placeholder="What car are you looking?">
-  </div>
-
-  <div class="input-wrapper">
-    <label for="input-2" class="input-label">Max. monthly payment</label>
-    <input type="text" name="monthly_pay" id="input-2" class="input-field" placeholder="Add an amount in $">
-  </div>
-
-  <div class="input-wrapper">
-    <label for="input-3" class="input-label">Make Year</label>
-    <input type="text" name="year" id="input-3" class="input-field" placeholder="Add a minimal make year">
-  </div>
-
-  <button type="button" class="btn" id="search-button">Search</button>
-</form>
-
-<div id="search-results"></div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  $(document).ready(function () {
-    $('#search-button').on('click', function () {
-      const formData = $('#car-search-form').serialize(); 
-
-      $.ajax({
-        url: 'search_cars.php', 
-        method: 'POST',
-        data: formData,
-        success: function (response) {
-          $('#search-results').html(response); 
-        },
-        error: function () {
-          $('#search-results').html('<p>An error occurred while searching for cars.</p>');
-        },
-      });
-    });
-  });
-</script> -->
 <!-- Formulaire HTML -->
 <form id="car-search-form" class="hero-form">
   <div class="input-wrapper">
@@ -270,6 +202,41 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
       </section>
 
+
+
+      
+      <div class="input-wrapper">
+  <label for="category-select" class="input-label">Filter by Category</label>
+  <select id="category-select" class="input-field">
+    <option value="">All Categories</option>
+    <?php
+    // Fetch all categories from the 'categories' table
+    $categories = $database->fetchAll("SELECT id, nom FROM categories");
+    foreach ($categories as $category) {
+        echo '<option value="' . htmlspecialchars($category['id']) . '">' . htmlspecialchars($category['nom']) . '</option>';
+    }
+    ?>
+  </select>
+</div>
+<script>
+  document.getElementById('category-select').addEventListener('change', function () {
+  const category = this.value;
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', 'fetch_cars.php', true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      document.getElementById('search-results').innerHTML = xhr.responseText;
+    } else {
+      document.getElementById('search-results').innerHTML = '<p>Error loading cars.</p>';
+    }
+  };
+
+  xhr.send('category=' + encodeURIComponent(category));
+});
+
+</script>
 
       
 

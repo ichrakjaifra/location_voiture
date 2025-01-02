@@ -1,6 +1,6 @@
 <?php
 session_start();
-// include_once 'Database.php'; 
+
 include_once 'Reservation.php'; 
 include_once 'Database.php';
 
@@ -15,15 +15,14 @@ if (!isset($_SESSION['utilisateur_id'])) {
 }
 
 
-// Create a new Database object and establish a connection
 $db = new Database();
-$conn = $db->connect(); // This will connect to the database
+$conn = $db->connect(); 
 
-// Get the vehicle ID from the URL
+
 $vehicule_id = isset($_GET['id']) ? $_GET['id'] : null;
 
 if ($vehicule_id) {
-    // Fetch vehicle details here to display in the form
+
     $query = "SELECT * FROM vehicules WHERE id = :vehicule_id";
     $params = [':vehicule_id' => $vehicule_id];
     
@@ -33,14 +32,13 @@ if ($vehicule_id) {
     $vehicule = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Handle form submission for reservation
         $date_debut = $_POST['date_debut'];
         $date_fin = $_POST['date_fin'];
         $lieu = $_POST['lieu'];
 
-        // Create a new reservation object and save it
+        
         $reservation = new Reservation($db, null, $utilisateur_id, $vehicule_id, $date_debut, $date_fin, $lieu);
-        $reservation->addReservation(); // Add reservation to the database
+        $reservation->addReservation(); 
         echo "Reservation added successfully!";
     }
 } else {
