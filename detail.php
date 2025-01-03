@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 require_once 'Database.php';
 
 if (isset($_GET['id'])) {
@@ -186,6 +189,39 @@ if (isset($_GET['id'])) {
         </table>
         <a href="explore_cars.php" class="btn mt-4 inline-block px-6 py-2 bg-blue-500 text-white font-semibold text-center rounded-lg shadow-md hover:bg-blue-600">Retour</a>
     </div>
+</div>
+
+
+<div class="mt-6">
+    <?php if (isset($_SESSION['utilisateur_id'])): ?>
+        <div class="bg-gray-100 rounded-lg p-6 shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Ajouter un avis</h2>
+            <form action="submit_review.php" method="POST">
+                <input type="hidden" name="vehicule_id" value="<?php echo htmlspecialchars($vehicule['id']); ?>">
+                <div class="mb-4">
+                    <label for="rating" class="block font-medium">Évaluation (1 à 5 étoiles)</label>
+                    <select id="rating" name="rating" required class="w-full mt-2 p-2 border rounded">
+                        <option value="1">1 étoile</option>
+                        <option value="2">2 étoiles</option>
+                        <option value="3">3 étoiles</option>
+                        <option value="4">4 étoiles</option>
+                        <option value="5">5 étoiles</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="review" class="block font-medium">Avis</label>
+                    <textarea id="review" name="review" rows="4" required class="w-full mt-2 p-2 border rounded" placeholder="Écrivez votre avis..."></textarea>
+                </div>
+                <button type="submit" class="px-6 py-2 bg-green-500 text-white font-semibold rounded shadow hover:bg-green-600">
+                    Soumettre
+                </button>
+            </form>
+        </div>
+    <?php else: ?>
+        <div class="bg-yellow-100 text-yellow-800 rounded-lg p-4 shadow-md">
+            <p>Veuillez <a href="sign_in.php" class="text-blue-500 underline">vous connecter</a> pour ajouter un avis.</p>
+        </div>
+    <?php endif; ?>
 </div>
 
 

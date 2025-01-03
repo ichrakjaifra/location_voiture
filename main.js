@@ -1,4 +1,4 @@
-function toggleModal() {
+function toggleModal(vehicleModal) {
   const modal = document.getElementById('vehicleModal');
   modal.classList.toggle('flex');
   modal.classList.toggle('hidden');
