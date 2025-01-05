@@ -193,36 +193,57 @@ if (isset($_GET['id'])) {
 
 
 <div class="mt-6">
-    <?php if (isset($_SESSION['utilisateur_id'])): ?>
-        <div class="bg-gray-100 rounded-lg p-6 shadow-md">
-            <h2 class="text-xl font-semibold mb-4">Ajouter un avis</h2>
-            <form action="submit_review.php" method="POST">
-                <input type="hidden" name="vehicule_id" value="<?php echo htmlspecialchars($vehicule['id']); ?>">
-                <div class="mb-4">
-                    <label for="rating" class="block font-medium">Évaluation (1 à 5 étoiles)</label>
-                    <select id="rating" name="rating" required class="w-full mt-2 p-2 border rounded">
-                        <option value="1">1 étoile</option>
-                        <option value="2">2 étoiles</option>
-                        <option value="3">3 étoiles</option>
-                        <option value="4">4 étoiles</option>
-                        <option value="5">5 étoiles</option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label for="review" class="block font-medium">Avis</label>
-                    <textarea id="review" name="review" rows="4" required class="w-full mt-2 p-2 border rounded" placeholder="Écrivez votre avis..."></textarea>
-                </div>
-                <button type="submit" class="px-6 py-2 bg-green-500 text-white font-semibold rounded shadow hover:bg-green-600">
-                    Soumettre
-                </button>
-            </form>
-        </div>
+    <?php 
+    // Vérifiez si l'utilisateur est connecté
+    if (isset($_SESSION['utilisateur_id'])): 
+        // Vérifiez si l'utilisateur a réservé ce véhicule
+        $utilisateur_id = $_SESSION['utilisateur_id'];
+        $vehicule_id = $vehicule['id']; // Supposons que $vehicule contient les détails du véhicule
+
+        // Requête pour vérifier la réservation
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM reservations WHERE utilisateur_id = ? AND vehicule_id = ?");
+        $stmt->execute([$utilisateur_id, $vehicule_id]);
+        $aReserve = $stmt->fetchColumn() > 0;
+
+        if ($aReserve): ?>
+            <!-- Formulaire d'ajout d'avis -->
+            <div class=" rounded-lg p-6 shadow-md" style="background-color: hhsl(216, 38%, 95%);">
+                <h2 class="text-xl font-semibold mb-4">Add a review</h2>
+                <form action="submit_review.php" method="POST">
+                    <input type="hidden" name="vehicule_id" value="<?php echo htmlspecialchars($vehicule['id']); ?>">
+                    <div class="mb-4">
+                        <label for="rating" class="block font-medium">Rating (1 to 5 stars)</label>
+                        <select id="rating" name="rating" required class="w-full mt-2 p-2 border rounded">
+                            <option value="1">⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="5">⭐⭐⭐⭐⭐</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="review" class="block font-medium">Review</label>
+                        <textarea id="review" name="review" rows="4" required class="w-full mt-2 p-2 border rounded" placeholder="Write your review..."></textarea>
+                    </div>
+                    <button type="submit" class="px-6 py-2 text-white font-semibold rounded shadow hover:bg-green-600" style="background-color: hsl(211, 100%, 35%);">
+                    Submit
+                    </button>
+                </form>
+            </div>
+        <?php else: ?>
+            <!-- Message si l'utilisateur n'a pas réservé ce véhicule -->
+            <div class="bg-yellow-100 text-yellow-800 rounded-lg p-4 shadow-md">
+                <p>You must reserve this vehicle before you can leave a review.</p>
+            </div>
+        <?php endif; ?>
     <?php else: ?>
+        <!-- Message si l'utilisateur n'est pas connecté -->
         <div class="bg-yellow-100 text-yellow-800 rounded-lg p-4 shadow-md">
             <p>Veuillez <a href="sign_in.php" class="text-blue-500 underline">vous connecter</a> pour ajouter un avis.</p>
         </div>
     <?php endif; ?>
 </div>
+
 
 
   <!-- 

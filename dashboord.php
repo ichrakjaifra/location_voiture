@@ -204,7 +204,7 @@ if ($connection) {
                 <div class="card-hover bg-white rounded-2xl shadow-sm p-8">
                     <div class="flex items-center">
                         <div class="bg-violet-100 p-4 rounded-xl">
-                            <i class="fas fa-hiking text-violet-600 text-2xl"></i>
+                        <i class="fas fa-car text-lg"></i>
                         </div>
                         <div class="ml-6">
                             <h3 class="text-slate-500 text-sm font-medium mb-1">Total Vehicles</h3>
