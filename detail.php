@@ -110,7 +110,7 @@ if (isset($_GET['id'])) {
           <span id="aria-label-txt">Explore cars</span>
         </a>
 
-        <a href="#" class="btn user-btn" aria-label="Profile">
+        <a href="sign_in.php" class="btn user-btn" aria-label="Profile">
           <ion-icon name="person-outline"></ion-icon>
         </a>
 
