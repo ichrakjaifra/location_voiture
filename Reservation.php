@@ -35,6 +35,22 @@ class Reservation {
         $this->db->execute($query, $params);
     }
 
+  //   public function addReservation() {
+      
+  //     $query = "CALL AjouterReservation(:utilisateur_id, :vehicule_id, :date_debut, :date_fin, :lieu)";
+      
+  //     $params = [
+  //         ':utilisateur_id' => $this->utilisateur_id,
+  //         ':vehicule_id' => $this->vehicule_id,
+  //         ':date_debut' => $this->date_debut,
+  //         ':date_fin' => $this->date_fin,
+  //         ':lieu' => $this->lieu
+  //     ];
+  
+  //     $this->db->execute($query, $params);
+  // }
+  
+
     // Fetch reservation details by vehicle ID
     public function getReservationDetails($vehicule_id) {
         $query = "SELECT * FROM reservations WHERE vehicule_id = :vehicule_id";

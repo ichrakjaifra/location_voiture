@@ -94,3 +94,25 @@ INSERT INTO vehicules (modele, prix, disponibilite, categorie_id, image_path, ma
 ('FR2019', 90000.00, 1, 4, 'images_voitures/13.jpg', 'FERRARI', 'FERRARI', 'Essence', 50, 3, '360', 'Automatique', 2.5, 2019, 350),
 ('KL45', 24000.00, 1, 3, 'images_voitures/14.jpg', 'VOLVO', 'VOLVO', 'Essence', 180, 5, '220', 'Automatique', 3.5, 2018, 400),
 ('luigefe54', 12000.00, 1, 5, 'images_voitures/15.jpg', 'GENERIC', 'GENERIC', 'Essence', 150, 5, '180', 'Manuel', 3.4, 2018, 45);
+
+
+
+
+CREATE PROCEDURE AjouterReservation(
+    IN p_utilisateur_id INT,
+    IN p_vehicule_id INT,
+    IN p_date_debut DATE,
+    IN p_date_fin DATE,
+    IN p_lieu VARCHAR(255)
+)
+BEGIN
+
+    INSERT INTO reservations (utilisateur_id, vehicule_id, date_debut, date_fin, lieu)
+    VALUES (p_utilisateur_id, p_vehicule_id, p_date_debut, p_date_fin, p_lieu);
+    
+    
+    UPDATE vehicules
+    SET disponibilite = 0  
+    WHERE id = p_vehicule_id;
+
+END
