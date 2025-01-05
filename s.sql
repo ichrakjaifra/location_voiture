@@ -116,3 +116,31 @@ BEGIN
     WHERE id = p_vehicule_id;
 
 END
+
+
+CREATE VIEW ListeVehicules AS
+SELECT 
+    v.id,
+    v.modele,
+    v.prix,
+    v.disponibilite,
+    v.categorie_id,
+    v.image_path,
+    v.marque,
+    v.fabriquant,
+    v.source_energie,
+    v.contenance,
+    v.nombre_chaises,
+    v.vitesses_max,
+    v.transmission,
+    v.acceleration,
+    v.puissance_moteur,
+    v.annee,
+    c.nom AS categorie_nom,  -- Nom de la catégorie
+    e.note AS evaluation_note  -- Note d'évaluation
+FROM 
+    vehicules v
+LEFT JOIN 
+    categories c ON v.categorie_id = c.id
+LEFT JOIN 
+    evaluations e ON v.id = e.vehicule_id;

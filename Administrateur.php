@@ -25,6 +25,28 @@ class Administrateur extends Utilisateur {
     return $vehicules;
 }
 
+// public function getVehicules() {
+//   $db = new Database();
+//   $db->connect();
+//   $query = "SELECT * FROM ListeVehicules";
+//   $results = $db->fetchAll($query);
+
+//   $vehicules = [];
+//   foreach ($results as $row) {
+//       $vehicules[] = new Vehicule(
+//           $row['id'], $row['modele'], $row['prix'], $row['disponibilite'],
+//           $row['categorie_id'], $row['image_path'], $row['marque'], 
+//           $row['fabriquant'], $row['source_energie'], $row['contenance'], 
+//           $row['nombre_chaises'], $row['vitesses_max'], 
+//           $row['transmission'], $row['acceleration'], $row['puissance_moteur'], 
+//           $row['annee'], $row['categorie_nom'], $row['evaluation_note'] 
+//       );
+//   }
+
+//   return $vehicules;
+// }
+
+
 
 
     // Méthode pour ajouter plusieurs véhicules à la fois

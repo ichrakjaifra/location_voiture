@@ -60,3 +60,55 @@ class Vehicule {
 }
 
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- private $categorieNom;
+    private $evaluationNote;
+
+    public function __construct($id, $modele, $prix, $disponibilite, $categorieId, $imagePath, 
+                                $marque, $fabriquant, $sourceEnergie, $contenance, $nombreChaises, 
+                                $vitessesMax, $transmission, $acceleration, $puissanceMoteur, $annee,
+                                $categorieNom = null, $evaluationNote = null) {
+        $this->id = $id;
+        $this->modele = $modele;
+        $this->prix = $prix;
+        $this->disponibilite = $disponibilite;
+        $this->categorieId = $categorieId;
+        $this->imagePath = $imagePath;
+        $this->marque = $marque;
+        $this->fabriquant = $fabriquant;
+        $this->sourceEnergie = $sourceEnergie;
+        $this->contenance = $contenance;
+        $this->nombreChaises = $nombreChaises;
+        $this->vitessesMax = $vitessesMax;
+        $this->transmission = $transmission;
+        $this->acceleration = $acceleration;
+        $this->puissanceMoteur = $puissanceMoteur;
+        $this->annee = $annee;
+
+        $this->categorieNom = $categorieNom;
+        $this->evaluationNote = $evaluationNote;
+    }
+
+  
+    public function getCategorieNom() {
+        return $this->categorieNom;
+    }
+
+    public function getEvaluationNote() {
+        return $this->evaluationNote;
+    } -->
